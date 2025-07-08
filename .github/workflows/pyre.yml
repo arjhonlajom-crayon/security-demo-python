@@ -34,13 +34,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: true
 
-      - name: Run Pyre
+      - name: Run Pyre Action
         uses: facebook/pyre-action@v0.0.2
         with:
-          # To customize these inputs:
-          # See https://github.com/facebook/pyre-action#inputs
-          repo-directory: './'
-          requirements-path: 'requirements.txt'
+            repo-directory: './'
+            requirements-path: 'requirements.txt'
