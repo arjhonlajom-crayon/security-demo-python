@@ -30,7 +30,6 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - uses: asteps:
       - uses: actions/checkout@v4
 
       - name: Install Bandit
