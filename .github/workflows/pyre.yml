@@ -1,18 +1,3 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-# This workflow integrates Pyre with GitHub's
-# Code Scanning feature.
-#
-# Pyre is a performant type checker for Python compliant with
-# PEP 484. Pyre can analyze codebases with millions of lines
-# of code incrementally – providing instantaneous feedback
-# to developers as they write code.
-#
-# See https://pyre-check.org
-
 name: Pyre
 
 on:
@@ -23,7 +8,7 @@ on:
     branches: [ "main" ]
 
 permissions:
-    contents: read
+  contents: read
 
 jobs:
   pyre:
@@ -35,8 +20,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
       - name: Run Pyre Action
         uses: facebook/pyre-action@v0.0.2
         with:
-            repo-directory: './'
-            requirements-path: 'requirements.txt'
+          repo-directory: './'
+          requirements-path: 'requirements.txt'
+
+      # SARIF support is added
+      - name: Upload SARIF
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: pyre.sarif
