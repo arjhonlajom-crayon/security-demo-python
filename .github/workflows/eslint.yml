@@ -38,12 +38,20 @@ jobs:
       - name: Run ESLint
         env:
           SARIF_ESLINT_IGNORE_SUPPRESSED: "true"
-        run: npx eslint .
-          --config .eslintrc.js
-          --ext .js,.jsx,.ts,.tsx
-          --format @microsoft/eslint-formatter-sarif
-          --output-file eslint-results.sarif
+        run: |
+          npx eslint . \
+            --config .eslintrc.js \
+            --ext .js,.jsx,.ts,.tsx \
+            --format @microsoft/eslint-formatter-sarif \
+            --output-file eslint-results.sarif
         continue-on-error: true
+
+      - name: Check if SARIF file exists
+        run: |
+          if [ ! -f eslint-results.sarif ]; then
+            echo "SARIF file not found!"
+            exit 1
+          fi
 
       - name: Upload analysis results to GitHub
         uses: github/codeql-action/upload-sarif@v3
