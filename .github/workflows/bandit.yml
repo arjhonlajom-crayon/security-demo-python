@@ -74,7 +74,7 @@ jobs:
 
       - name: Run Pylint and generate SARIF
         run: |
-          pylint $(git ls-files '*.py') --output-format=json:pylint-output.json
+          pylint $(git ls-files '*.py')
 
       - uses: Silleellie/pylint-github-action@v2.1
         with:
